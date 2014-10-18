@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -7,6 +9,7 @@ namespace LeaseWebAssignment.Models
 {
     public class Customer
     {
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long registrationNbr { get; set; }
         public string companyName { get; set; }
         public Email email { get; set; }

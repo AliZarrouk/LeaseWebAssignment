@@ -7,6 +7,7 @@ namespace LeaseWebAssignment.Models
 {
     public class Email
     {
+        public int ID { get; set; }
         public string userName { get; set; }
         public string domainName { get; set; }
         public string tld { get; set; }
