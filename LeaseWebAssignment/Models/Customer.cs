@@ -14,6 +14,8 @@ namespace LeaseWebAssignment.Models
         public string companyName { get; set; }
         public Email email { get; set; }
         public Address address { get; set; }
+        public virtual City city { get; set; }
+        public virtual Country country { get; set; }
         public string phoneNumber { get; set; }
         public string website { get; set; }
         public uint numberOfEmployees { get; set; }

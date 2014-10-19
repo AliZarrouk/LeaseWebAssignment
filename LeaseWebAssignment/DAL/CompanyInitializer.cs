@@ -9,13 +9,14 @@ using System.Xml;
 
 namespace LeaseWebAssignment.DAL
 {
-    public class CompanyInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<CompanyContext>
+    public class CompanyInitializer : System.Data.Entity.DropCreateDatabaseAlways<CompanyContext>
     {
         protected override void Seed(CompanyContext context)
         {
             // Add countries, this will be done by parsing an XML file
             XmlDocument doc = new XmlDocument();
-            doc.Load("Default_Data/countries.xml");
+            string xmlFilePath = HttpContext.Current.Server.MapPath("~/App_Data/countries.xml");
+            doc.Load(xmlFilePath);
             var countries = new List<Country>();
             foreach (XmlNode node in doc.SelectNodes("//country"))
             {

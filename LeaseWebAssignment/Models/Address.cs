@@ -11,11 +11,10 @@ namespace LeaseWebAssignment.Models
         public string streetName { get; set; }
         public string houseNumber { get; set; }
         public string postalCode { get; set; }
-        public virtual City city { get; set; }
 
         public override string ToString()
         {
-            string fullAdr = streetName + " " + houseNumber + "\n" + postalCode + "  " + city.ToString();
+            string fullAdr = streetName + " " + houseNumber + "\n" + postalCode;
             return fullAdr;
         }
     }

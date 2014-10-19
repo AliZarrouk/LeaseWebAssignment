@@ -12,7 +12,7 @@ namespace LeaseWebAssignment.Models
         public virtual Country country { get; set; }
         public override string ToString()
         {
-            return name + "\n" + country.ToString();
+            return name + "\n";
         }
     }
 }
