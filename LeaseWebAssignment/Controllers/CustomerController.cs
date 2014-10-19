@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using LeaseWebAssignment.DAL;
 using LeaseWebAssignment.Models;
+using System.Data.Entity.Validation;
 
 namespace LeaseWebAssignment.Controllers
 {
@@ -49,14 +50,24 @@ namespace LeaseWebAssignment.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "registrationNbr,companyName,phoneNumber,website,customerSince")] Customer customer)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Customers.Add(customer);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                if (ModelState.IsValid)
+                {
+                    db.Customers.Add(customer);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
 
-            return View(customer);
+                return View(customer);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var error = ex.EntityValidationErrors.First().ValidationErrors.First();
+                this.ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                return View();
+            }
+            
         }
 
         // GET: Customer/Edit/5

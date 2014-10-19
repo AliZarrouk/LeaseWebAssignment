@@ -12,8 +12,8 @@ namespace LeaseWebAssignment.Models
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long registrationNbr { get; set; }
         public string companyName { get; set; }
-        public Email email { get; set; }
-        public Address address { get; set; }
+        public virtual Email email { get; set; }
+        public virtual Address address { get; set; }
         public virtual City city { get; set; }
         public virtual Country country { get; set; }
         public string phoneNumber { get; set; }
