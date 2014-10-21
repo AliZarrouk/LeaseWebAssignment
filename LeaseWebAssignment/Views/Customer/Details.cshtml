@@ -41,7 +41,28 @@
         <dd>
             @Html.DisplayFor(model => model.customerSince)
         </dd>
-
+        <dt>
+            @Html.DisplayNameFor(model => model.contacts)
+        </dt>
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                </tr>
+                @foreach (var item in Model.contacts)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.type)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
     </dl>
 </div>
 <p>

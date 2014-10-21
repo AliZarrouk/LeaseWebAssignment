@@ -31,20 +31,17 @@ namespace LeaseWebAssignment.DAL
         protected override System.Data.Entity.Validation.DbEntityValidationResult ValidateEntity(System.Data.Entity.Infrastructure.DbEntityEntry entityEntry, IDictionary<object, object> items)
         {
             DbEntityValidationResult Errors = new DbEntityValidationResult(entityEntry,new List<DbValidationError>());
-            DbValidationError dve;
             object obj = entityEntry.Entity;
             Customer cus = new Customer();
-            bool test = obj.GetType().IsEquivalentTo(cus.GetType());
-            if (test)
+            bool isCustomer = obj.GetType().IsEquivalentTo(cus.GetType());
+            if (isCustomer)
             {
-                Customer customer = obj as Customer;
-                if (customer.registrationNbr.ToString().Length != 10)
-                {
-                    dve = new DbValidationError(
-    "registrationNbr",
-    "Registration number must be 10 digits");
-                    Errors.ValidationErrors.Add(dve);
-                }
+                (obj as Customer).IsValid(Errors);
+            }
+            bool isContact = obj.GetType().IsEquivalentTo(new Contact().GetType());
+            if (isContact)
+            {
+                (obj as Contact).IsValid(Errors);
             }
             if (Errors.ValidationErrors.Count > 0)
             {
