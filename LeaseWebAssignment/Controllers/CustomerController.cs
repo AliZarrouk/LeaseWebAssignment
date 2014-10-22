@@ -41,6 +41,15 @@ namespace LeaseWebAssignment.Controllers
         // GET: Customer/Create
         public ActionResult Create()
         {
+            try {
+                List<Country> countries = db.Countries.OrderBy(q => q.name).ToList();
+                ViewBag.CountriesNameList = new SelectList(countries, "iso", "name");
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+            
             return View();
         }
 
@@ -70,19 +79,8 @@ namespace LeaseWebAssignment.Controllers
             }
 
         }
-        /*
-        public ActionResult Index(int? SelectedCountry)
-        {
-            List<Country> countries = db.Countries.OrderBy(q => q.name).ToList();
-            ViewBag.SelectedCountry = new SelectList(countries, "DepartmentID", "Name", SelectedCountry);
-            int countryID = SelectedCountry.GetValueOrDefault();
 
-            var selectedCustomers = db.Customers.Where(cus => cus.country.name == countries[countryID].name);
-            var sql = selectedCustomers.ToString();
-            return View(selectedCustomers.ToList());
-        }
-        */
-        public ActionResult Index(string sortOrder, string searchString, int? SelectedCountry)
+        public ActionResult Index(string sortOrder, string regNbrSearchString, string emailSearchString, int? SelectedCountry)
         {
             try
             {
@@ -95,13 +93,14 @@ namespace LeaseWebAssignment.Controllers
                 var customers = from s in db.Customers
                                 select s;
 
-                if (!String.IsNullOrEmpty(searchString))
+                if (!String.IsNullOrEmpty(regNbrSearchString))
                 {
-                    customers = customers.Where(s => s.companyName.ToUpper().Contains(searchString.ToUpper()));
+                    customers = customers.Where(s => s.registrationNbr.ToString().ToUpper().Contains(regNbrSearchString.ToUpper()));
                 }
 
-                if (!String.IsNullOrEmpty(searchString))
+                if (!String.IsNullOrEmpty(emailSearchString))
                 {
+                    customers = customers.Where(s => s.email.ToString().ToUpper().Contains(emailSearchString.ToUpper()));
                 }
 
                 switch (sortOrder)
@@ -201,18 +200,7 @@ namespace LeaseWebAssignment.Controllers
             base.Dispose(disposing);
         }
 
-        public ActionResult CountryName()
-        {
-            List<string> countries = new List<string>();
-            foreach (var country in db.Countries)
-            {
-                countries.Add(country.name);
-            }
-
-            ViewBag.CountriesNameList = new SelectList(countries);
-
-            return View();
-        }
+        
 
     }
 }

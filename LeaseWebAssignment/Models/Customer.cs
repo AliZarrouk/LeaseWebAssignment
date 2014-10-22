@@ -14,8 +14,11 @@ namespace LeaseWebAssignment.Models
         public long registrationNbr { get; set; }
         public string companyName { get; set; }
         public string email { get; set; }
+        [Required]
         public string address { get; set; }
-        public virtual City city { get; set; }
+        [Required]
+        public string city { get; set; }
+        [Required]
         public virtual Country country { get; set; }
         public string phoneNumber { get; set; }
         public string website { get; set; }
@@ -30,9 +33,9 @@ namespace LeaseWebAssignment.Models
 
             ValidateNumberOfEmployeesMoreThanOne(errors);
 
-            //ValidateContactTypes(errors);
+            ValidateContactTypes(errors);
 
-            //ValidateUnicityOfEmailsWithinSameCustomer(errors);
+            ValidateUnicityOfEmailsWithinSameCustomer(errors);
 
             ValidateEmailAddress(errors);
 

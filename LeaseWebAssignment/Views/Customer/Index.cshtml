@@ -12,7 +12,14 @@
 @using (Html.BeginForm())
 {
     <p>
-        Find by company name: @Html.TextBox("SearchString")
+        Find by registration number: @Html.TextBox("regNbrSearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+@using (Html.BeginForm())
+{
+    <p>
+        Find by email: @Html.TextBox("emailSearchString")
         <input type="submit" value="Search" />
     </p>
 }

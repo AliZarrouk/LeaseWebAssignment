@@ -14,9 +14,11 @@ namespace LeaseWebAssignment.Models
         public string name { get; set; }
         public Title title { get; set; }
         public virtual ICollection<ContactType> type { get; set; }
-        // Address contains city
+        [Required]
         public string address { get; set; }
+        [Required]
         public string city { get; set; }
+        [Required]
         public virtual Country country { get; set; }
         public string phoneNumber { get; set; }
         public string email { get; set; }

@@ -24,9 +24,43 @@ namespace LeaseWebAssignment.Controllers
         }
 
         // GET: WorkContact
-        public ActionResult Index()
+        public ActionResult Index(string nameSearchString, string emailSearchString, int? SelectedCountry)
         {
-            return View(db.Contacts.ToList());
+            try
+            {
+                List<Country> countries = db.Countries.OrderBy(q => q.name).ToList();
+                ViewBag.SelectedCountry = new SelectList(countries, "iso", "name", SelectedCountry);
+
+                var contacts = from s in db.Contacts
+                                select s;
+
+                if (!String.IsNullOrEmpty(nameSearchString))
+                {
+                    contacts = contacts.Where(s => s.name.ToString().ToUpper().Contains(nameSearchString.ToUpper()));
+                }
+
+                if (!String.IsNullOrEmpty(emailSearchString))
+                {
+                    contacts = contacts.Where(s => s.email.ToString().ToUpper().Contains(emailSearchString.ToUpper()));
+                }
+
+                bool hasValue = SelectedCountry.HasValue;
+
+                if (hasValue)
+                {
+                    int countryID = SelectedCountry.GetValueOrDefault();
+
+                    var selectedCustomers = db.Customers.Where(cus => cus.country.name == countries[countryID].name);
+                    return View(selectedCustomers.ToList());
+                }
+
+                return View(contacts.ToList());
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+                return View(db.Contacts.ToList());
+            }
         }
 
         // GET: WorkContact/Details/5

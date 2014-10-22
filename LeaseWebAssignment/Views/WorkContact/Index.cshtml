@@ -9,6 +9,27 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("nameSearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+@using (Html.BeginForm())
+{
+    <p>
+        Find by email: @Html.TextBox("emailSearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+@using (Html.BeginForm())
+{
+    <p>
+        Select Country: @Html.DropDownList("SelectedCountry", "All")
+        <input type="submit" value="Filter" />
+    </p>
+}
 <table class="table">
     <tr>
         <th>
