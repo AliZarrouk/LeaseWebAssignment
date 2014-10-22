@@ -15,6 +15,14 @@ namespace LeaseWebAssignment.Controllers
     {
         private CompanyContext db = new CompanyContext();
 
+        public ActionResult CreateWorkContactProfile()
+        {
+            var workContactProfileViewModel = new Contact();
+            //{ type = new ContactType() { value = ContactTypeValue.Main, assigned = false } };
+
+            return View(workContactProfileViewModel);
+        }
+
         // GET: WorkContact
         public ActionResult Index()
         {

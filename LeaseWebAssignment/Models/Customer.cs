@@ -30,11 +30,13 @@ namespace LeaseWebAssignment.Models
 
             ValidateNumberOfEmployeesMoreThanOne(errors);
 
-            ValidateContactTypes(errors);
+            //ValidateContactTypes(errors);
 
-            ValidateUnicityOfEmailsWithinSameCustomer(errors);
+            //ValidateUnicityOfEmailsWithinSameCustomer(errors);
 
             ValidateEmailAddress(errors);
+
+            ValitdatePhoneNumber(errors);
 
             if (errors.ValidationErrors.Count > 0)
                 return false;
@@ -49,6 +51,23 @@ namespace LeaseWebAssignment.Models
                 {
                     DbValidationError dve;
                     dve = new DbValidationError("email", "Email address is not valid");
+                    errors.ValidationErrors.Add(dve);
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+        }
+
+        private void ValitdatePhoneNumber(DbEntityValidationResult errors)
+        {
+            try
+            {
+                if (!Utilities.Utilities.isValidPhoneNumber(phoneNumber))
+                {
+                    DbValidationError dve;
+                    dve = new DbValidationError("phoneNumber", "Phone number is not valid");
                     errors.ValidationErrors.Add(dve);
                 }
             }

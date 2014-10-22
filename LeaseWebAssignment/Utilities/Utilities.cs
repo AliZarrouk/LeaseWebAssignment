@@ -16,7 +16,9 @@ namespace LeaseWebAssignment.Utilities
             if (String.IsNullOrEmpty(strIn))
                 return false;
 
-            return Regex.IsMatch(strIn, "^\\+?(\\d[\\d-. ]+)?(\\([\\d-. ]+\\))?[\\d-. ]+\\d$");
+            // No number of digits limitation
+            return Regex.IsMatch(strIn, "^\\+?(\\d[\\d-. ]+)?(\\([\\d-. ]+\\))?[\\d-. ]+\\d$",
+                RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
         }
 
         public static bool IsValidEmail(string strIn)

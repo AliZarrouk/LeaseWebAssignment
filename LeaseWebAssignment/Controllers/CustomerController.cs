@@ -17,11 +17,12 @@ namespace LeaseWebAssignment.Controllers
         private CompanyContext db = new CompanyContext();
 
         // GET: Customer
+        /*
         public ActionResult Index()
         {
             return View(db.Customers.ToList());
         }
-
+        */
         // GET: Customer/Details/5
         public ActionResult Details(long? id)
         {
@@ -67,7 +68,71 @@ namespace LeaseWebAssignment.Controllers
                 this.ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
                 return View();
             }
-            
+
+        }
+        /*
+        public ActionResult Index(int? SelectedCountry)
+        {
+            List<Country> countries = db.Countries.OrderBy(q => q.name).ToList();
+            ViewBag.SelectedCountry = new SelectList(countries, "DepartmentID", "Name", SelectedCountry);
+            int countryID = SelectedCountry.GetValueOrDefault();
+
+            var selectedCustomers = db.Customers.Where(cus => cus.country.name == countries[countryID].name);
+            var sql = selectedCustomers.ToString();
+            return View(selectedCustomers.ToList());
+        }
+        */
+        public ActionResult Index(string sortOrder, string searchString, int? SelectedCountry)
+        {
+            try
+            {
+                List<Country> countries = db.Countries.OrderBy(q => q.name).ToList();
+                ViewBag.SelectedCountry = new SelectList(countries, "iso", "name", SelectedCountry);
+
+
+                ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+                ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+                var customers = from s in db.Customers
+                                select s;
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    customers = customers.Where(s => s.companyName.ToUpper().Contains(searchString.ToUpper()));
+                }
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                }
+
+                switch (sortOrder)
+                {
+                    case "Date":
+                        customers = customers.OrderBy(s => s.customerSince);
+                        break;
+                    case "date_desc":
+                        customers = customers.OrderByDescending(s => s.customerSince);
+                        break;
+                    default:
+                        customers = customers.OrderBy(s => s.companyName);
+                        break;
+                }
+
+                bool hasValue = SelectedCountry.HasValue;
+
+                if (hasValue)
+                {
+                    int countryID = SelectedCountry.GetValueOrDefault();
+
+                    var selectedCustomers = db.Customers.Where(cus => cus.country.name == countries[countryID].name);
+                    return View(selectedCustomers.ToList());
+                }
+                return View(customers.ToList());
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+                return View(db.Customers.ToList());
+            }
         }
 
         // GET: Customer/Edit/5
@@ -135,5 +200,19 @@ namespace LeaseWebAssignment.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public ActionResult CountryName()
+        {
+            List<string> countries = new List<string>();
+            foreach (var country in db.Countries)
+            {
+                countries.Add(country.name);
+            }
+
+            ViewBag.CountriesNameList = new SelectList(countries);
+
+            return View();
+        }
+
     }
 }

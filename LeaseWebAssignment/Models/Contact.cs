@@ -16,6 +16,8 @@ namespace LeaseWebAssignment.Models
         public virtual ICollection<ContactType> type { get; set; }
         // Address contains city
         public string address { get; set; }
+        public string city { get; set; }
+        public virtual Country country { get; set; }
         public string phoneNumber { get; set; }
         public string email { get; set; }
         public virtual Contact parentContact { get; set; }
@@ -35,12 +37,12 @@ namespace LeaseWebAssignment.Models
         {
             try
             {
-                if ((!this.type.Contains(ContactType.Main)) && (this.parentContact != null))
-                {
-                    DbValidationError dve;
-                    dve = new DbValidationError("type", "Every contact must have a parent contact (except the Main one)");
-                    errors.ValidationErrors.Add(dve);
-                }
+                if ((! type.Contains(ContactType.Main)) && (this.parentContact != null))
+                    {
+                        DbValidationError dve;
+                        dve = new DbValidationError("type", "Every contact must have a parent contact (except the Main one)");
+                        errors.ValidationErrors.Add(dve);
+                    }
             }
             catch (Exception exception)
             {
